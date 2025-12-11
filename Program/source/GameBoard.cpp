@@ -1,0 +1,158 @@
+//
+// Created by sebastian on 12/8/25.
+//
+
+#include "GameBoard.h"
+
+#include <iostream>
+
+GameBoard::GameBoard()
+{
+  for (int row {0}; row < 6; row++)
+  {
+    for (int column {0}; column < 7; column++)
+    {
+      m_GameBoard[row][column] = TileState::Empty;
+      m_availableColumns[column] = true;
+    }
+  }
+}
+
+void GameBoard::printBoard() const
+{
+  for (const auto & row : m_GameBoard)
+  {
+    for (const auto column : row)
+    {
+      std::cout << getTileChar(column);
+    }
+    std::cout << std::endl;
+  }
+}
+
+void GameBoard::editBoard(const int column, const TileState state)
+{
+  int row {5};
+  while (m_GameBoard[row][column] != TileState::Empty)
+  { row--; }
+
+  m_GameBoard[row][column] = state;
+  if (row == 5) {m_availableColumns[column] = false;}
+}
+
+bool GameBoard::hasPlayerWon(const int column, const TileState state) const
+{
+  if (state == TileState::Empty)
+  { std::cerr << "Invalid state for hasPlayerWon" << std::endl; return false; }
+
+  // Find the exact location the player played
+  int row {0};
+  while (m_GameBoard[row][column] != state)
+  { row++; }
+
+  // Check the horizontal winning condition
+  if (horizontalWin(column, row, state)) { return true; }
+
+  // Check vertical winning condition
+  if (verticalWin(column, row, state)) { return true; }
+
+  // Check the diagonal winning condition
+  if (diagonalWin(column, row, state)) { return true; }
+
+  return false;
+}
+
+bool GameBoard::isBoardFull() const
+{
+  for (auto column : m_availableColumns)
+  { if (column.second) { return false; } }
+  return true;
+}
+
+bool GameBoard::isColumnFull(int column) const
+{
+  return m_availableColumns.at(column);
+}
+
+char GameBoard::getTileChar(const TileState state)
+{
+  switch (state)
+  {
+    case TileState::Empty:
+      return ',';
+    case TileState::Player1:
+      return 'X';
+    case TileState::Player2:
+      return 'O';
+  }
+  return '?';
+}
+
+bool GameBoard::horizontalWin(const int column, const int row, const TileState state) const
+{
+  // We initialize as one, as to also include the current square
+  int inLine {1};
+
+  int inColumn {column - 1};
+  while (0 <= inColumn && m_GameBoard[row][inColumn] == state)
+  { inColumn--, inLine++; }
+
+  inColumn = column + 1;
+  while (6 >= inColumn && m_GameBoard[row][inColumn] == state)
+  { inColumn++, inLine++; }
+
+  return inLine >= 4;
+}
+
+bool GameBoard::verticalWin(int column, int row, TileState state) const
+{
+  int inLine {1};
+
+  int inRow {row - 1};
+  while (0 <= inRow && m_GameBoard[inRow][column] == state)
+  {
+    inRow--, inLine++;
+  }
+
+  inRow = row + 1;
+  while (5 >= inRow && m_GameBoard[inRow][column] == state)
+  {
+    inRow++, inLine++;
+  }
+
+  return inLine >= 4;
+}
+
+bool GameBoard::diagonalWin(int column, int row, TileState state) const
+{
+  int inLine {1};
+
+  int inRow {row - 1}, inColumn {column - 1};
+  while (0 <= inRow && 0 <= inColumn && m_GameBoard[inRow][inColumn] == state)
+  {
+    inRow--, inColumn--, inLine++;
+  }
+
+ inRow = row + 1, inColumn = column + 1;
+  while (5 >= inRow && 6 >= inColumn && m_GameBoard[inRow][inColumn] == state)
+  {
+    inRow++, inColumn++, inLine++;
+  }
+  if (inLine >= 4) { return true; }
+
+  inLine = 1;
+
+  inRow = row - 1, inColumn = column + 1;
+  while (0 <= inRow && 6 >= inColumn && m_GameBoard[inRow][inColumn] == state)
+  {
+    inRow--, inColumn++, inLine++;
+  }
+
+  inRow = row + 1, inColumn = column - 1;
+  while (5 >= inRow && 0 <= inColumn && m_GameBoard[inRow][inColumn] == state)
+  {
+    inRow++, inColumn--, inLine++;
+  }
+
+  return inLine >= 4;
+}
