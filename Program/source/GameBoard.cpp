@@ -69,8 +69,9 @@ bool GameBoard::isBoardFull() const
   return true;
 }
 
-bool GameBoard::isColumnFull(int column) const
+bool GameBoard::isMoveValid(const int column) const
 {
+  if (column < 0 || column >= m_columns) { return false; }
   return m_availableColumns.at(column);
 }
 
@@ -79,7 +80,7 @@ char GameBoard::getTileChar(const TileState state)
   switch (state)
   {
     case TileState::Empty:
-      return ',';
+      return ' ';
     case TileState::Player1:
       return 'X';
     case TileState::Player2:
