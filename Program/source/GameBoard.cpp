@@ -20,14 +20,19 @@ GameBoard::GameBoard()
 
 void GameBoard::printBoard() const
 {
+
   for (const auto & row : m_GameBoard)
   {
     for (const auto column : row)
     {
-      std::cout << getTileChar(column);
+      std::cout << getTileChar(column) << " ";
     }
     std::cout << std::endl;
   }
+  for (int column {1}; column <= m_columns; column++)
+    std::cout << column << " ";
+
+  std::cout << std::endl << std::endl;
 }
 
 void GameBoard::editBoard(const int column, const TileState state)
@@ -80,7 +85,7 @@ char GameBoard::getTileChar(const TileState state)
   switch (state)
   {
     case TileState::Empty:
-      return ' ';
+      return '-';
     case TileState::Player1:
       return 'X';
     case TileState::Player2:

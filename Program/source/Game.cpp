@@ -54,7 +54,7 @@ int Game::getMove() const
     if (std::cin >> column)
     {
       // Check if the integer is valid
-      if (m_gameBoard.isMoveValid(column))
+      if (m_gameBoard.isMoveValid(--column))
       {
         return column;
       }
