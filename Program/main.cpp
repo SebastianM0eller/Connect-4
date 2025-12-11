@@ -3,10 +3,10 @@
 //
 
 #include <iostream>
-#include "GameBoard.h"
+#include "Game.h"
 
 int main()
 {
-  GameBoard gameBoard{};
-  gameBoard.printBoard();
+  Game Connect4;
+  Connect4.Run();
 }

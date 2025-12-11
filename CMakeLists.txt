@@ -15,6 +15,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC Program/include)
 target_sources(${PROJECT_NAME} PRIVATE
         Program/main.cpp
         Program/source/GameBoard.cpp
+        Program/source/Game.cpp
 )
 
 # --- Compile Options ---

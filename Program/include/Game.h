@@ -2,7 +2,26 @@
 // Created by sebastian on 12/11/25.
 //
 
-#ifndef CONNECT_4_GAME_H
-#define CONNECT_4_GAME_H
+#pragma once
+#include "GameBoard.h"
 
-#endif //CONNECT_4_GAME_H
+class Game
+{
+public:
+  Game();
+  ~Game() = default;
+
+  void Run();
+
+private:
+  GameBoard m_gameBoard;
+  TileState m_currentPlayer {TileState::Player1};
+
+  bool m_gameOver {false};
+
+  void clearConsole();
+  void printStatus();
+  int getMove() const;
+  bool checkGameStatus(int column);
+  void switchPlayer();
+};
