@@ -4,7 +4,6 @@
 
 #pragma once
 #include <map>
-#include <vector>
 
 // An enum class that represents the different states of a tile
 enum class TileState
@@ -28,9 +27,11 @@ public:
   [[nodiscard]] bool isColumnFull(int column) const;
 
 private:
+  static constexpr int m_rows {6};
+  static constexpr int m_columns {7};
   // [Rows][Columns]
   // Initializes to 'Empty'
-  TileState m_GameBoard[6][7] {};
+  TileState m_GameBoard[m_rows][m_columns];
   std::map<int, bool> m_availableColumns;
 
   // Helper function for printBoard
@@ -39,4 +40,6 @@ private:
   [[nodiscard]] bool horizontalWin(int column, int row, TileState state) const;
   [[nodiscard]] bool verticalWin(int column, int row, TileState state) const;
   [[nodiscard]] bool diagonalWin(int column, int row, TileState state) const;
+
+  [[nodiscard]] int countDirection(int startColumn, int startRow, int colDirection, int rowDirection, TileState state) const;
 };

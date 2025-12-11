@@ -90,69 +90,50 @@ char GameBoard::getTileChar(const TileState state)
 
 bool GameBoard::horizontalWin(const int column, const int row, const TileState state) const
 {
-  // We initialize as one, as to also include the current square
+  // We initialize as one to include the current square.
   int inLine {1};
-
-  int inColumn {column - 1};
-  while (0 <= inColumn && m_GameBoard[row][inColumn] == state)
-  { inColumn--, inLine++; }
-
-  inColumn = column + 1;
-  while (6 >= inColumn && m_GameBoard[row][inColumn] == state)
-  { inColumn++, inLine++; }
+  inLine += countDirection(column, row, 1, 0, state);
+  inLine += countDirection(column, row, -1, 0, state);
 
   return inLine >= 4;
 }
 
-bool GameBoard::verticalWin(int column, int row, TileState state) const
+bool GameBoard::verticalWin(const int column, const int row, const TileState state) const
 {
   int inLine {1};
-
-  int inRow {row - 1};
-  while (0 <= inRow && m_GameBoard[inRow][column] == state)
-  {
-    inRow--, inLine++;
-  }
-
-  inRow = row + 1;
-  while (5 >= inRow && m_GameBoard[inRow][column] == state)
-  {
-    inRow++, inLine++;
-  }
+  inLine += countDirection(column, row, 0, 1, state);
+  inLine += countDirection(column, row, 0, -1, state);
 
   return inLine >= 4;
 }
 
-bool GameBoard::diagonalWin(int column, int row, TileState state) const
+bool GameBoard::diagonalWin(const int column, const int row, const TileState state) const
 {
   int inLine {1};
+  inLine += countDirection(column, row, 1, 1, state);
+  inLine += countDirection(column, row, -1, -1, state);
 
-  int inRow {row - 1}, inColumn {column - 1};
-  while (0 <= inRow && 0 <= inColumn && m_GameBoard[inRow][inColumn] == state)
-  {
-    inRow--, inColumn--, inLine++;
-  }
-
- inRow = row + 1, inColumn = column + 1;
-  while (5 >= inRow && 6 >= inColumn && m_GameBoard[inRow][inColumn] == state)
-  {
-    inRow++, inColumn++, inLine++;
-  }
   if (inLine >= 4) { return true; }
 
   inLine = 1;
-
-  inRow = row - 1, inColumn = column + 1;
-  while (0 <= inRow && 6 >= inColumn && m_GameBoard[inRow][inColumn] == state)
-  {
-    inRow--, inColumn++, inLine++;
-  }
-
-  inRow = row + 1, inColumn = column - 1;
-  while (5 >= inRow && 0 <= inColumn && m_GameBoard[inRow][inColumn] == state)
-  {
-    inRow++, inColumn--, inLine++;
-  }
+  inLine += countDirection(column, row, 1, -1, state);
+  inLine += countDirection(column, row, -1, 1, state);
 
   return inLine >= 4;
+}
+
+int GameBoard::countDirection(const int startColumn, const int startRow, const int colDirection,
+                              const int rowDirection, const TileState state) const
+{
+  int count {0};
+  int row = startRow + rowDirection;
+  int column = startColumn + colDirection;
+
+  while ( 0 <= row && row < m_rows && 0 <= column && column < m_columns && m_GameBoard[row][column] == state)
+  {
+    count++;
+    row += rowDirection;
+    column += colDirection;
+  }
+  return count;
 }
