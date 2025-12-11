@@ -37,7 +37,7 @@ void GameBoard::editBoard(const int column, const TileState state)
   { row--; }
 
   m_GameBoard[row][column] = state;
-  if (row == 5) {m_availableColumns[column] = false;}
+  if (row == 0) {m_availableColumns[column] = false;}
 }
 
 bool GameBoard::hasPlayerWon(const int column, const TileState state) const
