@@ -18,10 +18,7 @@ private:
   GameBoard& m_gameBoard;
   const TileState m_state;
 
-  // Returns 0 if there are no winning moves
   [[nodiscard]] int canWin() const;
   [[nodiscard]] int playerCanWin() const;
-
-  // Returns a random valid move.
   [[nodiscard]] int pickRandomMove() const;
 };

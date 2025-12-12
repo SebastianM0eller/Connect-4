@@ -58,7 +58,7 @@ void GameBoard::placeInBoard(int column, const TileState state)
 
   // We check if it was the last available place in that column (row = 0)
   // If it is, we remove the column from the available columns
-  if (row == 0) {std::erase(m_availableColumns, column);}
+  if (row == 0) {std::erase(m_availableColumns, column + 1);}
 }
 
 // Returns a char, based on the state argument
@@ -81,8 +81,7 @@ bool GameBoard::hasPlayerWon(int column, const TileState state) const
 {
   // Transform the to begin at 1 instead of 0
   column--;
-  std::cout << column << std::endl;
-  printBoard();
+
   // A player should not have an Empty state
   if (state == TileState::Empty)
   {
