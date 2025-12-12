@@ -11,17 +11,17 @@ public:
   GameAI(GameBoard& gameBoard, TileState state);
   ~GameAI() = default;
 
-  void makeMove() const;
-  TileState getSymbol() const { return m_state; }
+  [[nodiscard]] int makeMove();
+  [[nodiscard]] TileState getState() const { return m_state; }
 
 private:
   GameBoard& m_gameBoard;
   const TileState m_state;
 
   // Returns 0 if there are no winning moves
-  int canWin() const;
-  int playerCanWin() const;
+  [[nodiscard]] int canWin() const;
+  [[nodiscard]] int playerCanWin() const;
 
   // Returns a random valid move.
-  int pickRandomMove() const;
+  [[nodiscard]] int pickRandomMove() const;
 };

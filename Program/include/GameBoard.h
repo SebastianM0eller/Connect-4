@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include <map>
 #include <vector>
 
 // An enum class that represents the different states of a tile
@@ -21,7 +20,8 @@ public:
   ~GameBoard() = default;
 
   void printBoard() const;
-  void editBoard(int column, TileState state);
+  void placeInBoard(int column, TileState state);
+  static char getTileChar(TileState state);
 
   [[nodiscard]] bool hasPlayerWon(int column, TileState state) const;
   [[nodiscard]] bool isBoardFull() const; // Is it a draw?
@@ -36,9 +36,6 @@ private:
 
   TileState m_GameBoard[m_rows][m_columns] {};
   std::vector<int> m_availableColumns;
-
-  // Helper function for printBoard
-  static char getTileChar(TileState state);
 
   [[nodiscard]] bool horizontalWin(int column, int row, TileState state) const;
   [[nodiscard]] bool verticalWin(int column, int row, TileState state) const;

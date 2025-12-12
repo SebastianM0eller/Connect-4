@@ -16,6 +16,7 @@ target_sources(${PROJECT_NAME} PRIVATE
         Program/main.cpp
         Program/source/GameBoard.cpp
         Program/source/Game.cpp
+        Program/source/GameAI.cpp
 )
 
 # --- Compile Options ---
