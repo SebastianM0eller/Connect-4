@@ -67,19 +67,17 @@ void Game::singlePlayerGame()
       // For debug
       std::cout << "Its the AI's Turn";
       // Get the move from the AI
-      int playedColumn = ai.makeMove();
-      if (playedColumn != 0) // I don't remember why, but if it's not there, we crash
-      {
-        if (checkGameStatus(playedColumn))
-        {break;}
-      }
+      const int playedColumn = ai.getMove();
+      m_gameBoard.placeInBoard(playedColumn, m_currentPlayer);
+      if (checkGameStatus(playedColumn))
+      {break;}
       switchPlayer();
     }
     else
     {
       clearConsole();
       printStatus();
-      int playedColumn = getMove();
+      const int playedColumn = getMove();
       m_gameBoard.placeInBoard(playedColumn, m_currentPlayer);
       if (checkGameStatus(playedColumn))
       {break;}

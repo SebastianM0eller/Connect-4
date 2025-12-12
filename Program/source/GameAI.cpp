@@ -12,24 +12,19 @@
 GameAI::GameAI(GameBoard& gameBoard, const TileState state)
   : m_gameBoard(gameBoard), m_state(state) {}
 
-int GameAI::makeMove()
+int GameAI::getMove() const
 {
   if (canWin() != 0)
   {
-    m_gameBoard.placeInBoard(canWin(), m_state);
     return canWin();
   }
 
   if (playerCanWin() != 0)
   {
-    m_gameBoard.placeInBoard(playerCanWin(), m_state);
     return playerCanWin();
   }
 
-  const int move = pickRandomMove();
-  m_gameBoard.placeInBoard(move, m_state);
-  return move;
-
+  return pickRandomMove();
 }
 
 int GameAI::canWin() const
@@ -49,8 +44,6 @@ int GameAI::canWin() const
 
 int GameAI::playerCanWin() const
 {
-  for (const int column : m_gameBoard.getAvailableColumns())
-  {std::cout << column << " "; }
   const TileState playerSymbol = (m_state == TileState::Player1) ? TileState::Player2 : TileState::Player1;
   for (const int column : m_gameBoard.getAvailableColumns())
   {

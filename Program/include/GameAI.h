@@ -11,7 +11,7 @@ public:
   GameAI(GameBoard& gameBoard, TileState state);
   ~GameAI() = default;
 
-  [[nodiscard]] int makeMove();
+  [[nodiscard]] int getMove() const;
   [[nodiscard]] TileState getState() const { return m_state; }
 
 private:
