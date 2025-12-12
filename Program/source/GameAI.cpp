@@ -32,7 +32,7 @@ int GameAI::canWin() const
   for (const int column : m_gameBoard.getAvailableColumns())
   {
     GameBoard copy = m_gameBoard;
-    copy.placeInBoard(column, m_state);
+    copy.dropPiece(column, m_state);
 
     if (copy.hasPlayerWon(column, m_state))
     {
@@ -49,7 +49,7 @@ int GameAI::playerCanWin() const
   {
 
     GameBoard copy = m_gameBoard;
-    copy.placeInBoard(column, playerSymbol);
+    copy.dropPiece(column, playerSymbol);
     if (copy.hasPlayerWon(column, playerSymbol))
     {
       return column;

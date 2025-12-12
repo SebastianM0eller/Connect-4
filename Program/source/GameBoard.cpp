@@ -41,7 +41,7 @@ void GameBoard::printBoard() const
 
 // Make a play to the board
 // Takes in the column the player wants to play, as well as the TileState for that player
-void GameBoard::placeInBoard(int column, const TileState state)
+void GameBoard::dropPiece(int column, const TileState state)
 {
   // we transform the column to 0-index
   column--;

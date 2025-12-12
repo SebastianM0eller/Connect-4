@@ -35,7 +35,7 @@ void Game::multiPlayerGame()
 
     // Get the move from the player
     const int column = getMove();
-    m_gameBoard.placeInBoard(column, m_currentPlayer);
+    m_gameBoard.dropPiece(column, m_currentPlayer);
 
     // Check if the game should stop
     if (checkGameStatus(column))
@@ -64,24 +64,16 @@ void Game::singlePlayerGame()
     // If the AI is the current player, we run its game loop
     if (ai.getState() == m_currentPlayer)
     {
-      // For debug
-      std::cout << "Its the AI's Turn";
       // Get the move from the AI
       const int playedColumn = ai.getMove();
-      m_gameBoard.placeInBoard(playedColumn, m_currentPlayer);
-      if (checkGameStatus(playedColumn))
-      {break;}
-      switchPlayer();
+      gameUpdate(playedColumn);
     }
     else
     {
       clearConsole();
       printStatus();
       const int playedColumn = getMove();
-      m_gameBoard.placeInBoard(playedColumn, m_currentPlayer);
-      if (checkGameStatus(playedColumn))
-      {break;}
-      switchPlayer();
+      gameUpdate(playedColumn);
     }
   }
 }
@@ -94,7 +86,7 @@ void Game::clearConsole()
 void Game::printStatus()
 {
   m_gameBoard.printBoard();
-  std::cout << "The current player is Player" << static_cast<int>(m_Player1) << std::endl;
+  std::cout << "The current player is Player" << GameBoard::getTileChar(m_currentPlayer) << std::endl;
 }
 
 int Game::getMove() const
@@ -134,7 +126,8 @@ bool Game::checkGameStatus(const int column)
   if (m_gameBoard.hasPlayerWon(column, m_currentPlayer))
   {
     m_gameOver = true;
-    std::cout << "We have a Winner!" << std::endl;
+    m_gameBoard.printBoard();
+    std::cout << "Player " << GameBoard::getTileChar(m_currentPlayer) <<  " has won the game!" << std::endl;
     return true;
   }
 
@@ -151,4 +144,11 @@ bool Game::checkGameStatus(const int column)
 void Game::switchPlayer()
 {
   m_currentPlayer = (m_currentPlayer == TileState::Player1) ? TileState::Player2 : TileState::Player1;
+}
+
+void Game::gameUpdate(const int playedColumn)
+{
+  m_gameBoard.dropPiece(playedColumn, m_currentPlayer);
+  checkGameStatus(playedColumn);
+  switchPlayer();
 }

@@ -20,7 +20,7 @@ public:
   ~GameBoard() = default;
 
   void printBoard() const;
-  void placeInBoard(int column, TileState state);
+  void dropPiece(int column, TileState state);
   static char getTileChar(TileState state);
 
   [[nodiscard]] bool hasPlayerWon(int column, TileState state) const;

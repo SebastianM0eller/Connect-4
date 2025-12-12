@@ -15,8 +15,6 @@ public:
 
 private:
   GameBoard m_gameBoard;
-  TileState m_Player1 {TileState::Player1};
-  TileState m_Player2 {TileState::Player2};
   TileState m_currentPlayer {TileState::Player1};
 
   void singlePlayerGame();
@@ -29,4 +27,5 @@ private:
   [[nodiscard]] int getMove() const;
   bool checkGameStatus(int column);
   void switchPlayer();
+  void gameUpdate(int playedColumn);
 };
