@@ -4,6 +4,7 @@
 
 #pragma once
 #include <map>
+#include <vector>
 
 // An enum class that represents the different states of a tile
 enum class TileState
@@ -26,12 +27,15 @@ public:
   [[nodiscard]] bool isBoardFull() const; // Is it a draw?
   [[nodiscard]] bool isMoveValid(int column) const;
 
+  [[nodiscard]] std::vector<int> getAvailableColumns() const { return m_availableColumns; }
+
+
 private:
   static constexpr int m_rows {6};
   static constexpr int m_columns {7};
 
   TileState m_GameBoard[m_rows][m_columns] {};
-  std::map<int, bool> m_availableColumns;
+  std::vector<int> m_availableColumns;
 
   // Helper function for printBoard
   static char getTileChar(TileState state);

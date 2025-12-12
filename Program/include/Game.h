@@ -19,9 +19,9 @@ private:
 
   bool m_gameOver {false};
 
-  void clearConsole();
+  static void clearConsole();
   void printStatus();
-  int getMove() const;
+  [[nodiscard]] int getMove() const;
   bool checkGameStatus(int column);
   void switchPlayer();
 };

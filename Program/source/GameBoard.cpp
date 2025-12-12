@@ -8,13 +8,13 @@
 
 GameBoard::GameBoard()
 {
-  for (int row {0}; row < 6; row++)
+  for (int column {0}; column < 7; column++)
   {
-    for (int column {0}; column < 7; column++)
+    for (int row {0}; row < 6; row++)
     {
       m_GameBoard[row][column] = TileState::Empty;
-      m_availableColumns[column] = true;
     }
+    m_availableColumns.push_back(column);
   }
 }
 
@@ -42,7 +42,7 @@ void GameBoard::editBoard(const int column, const TileState state)
   { row--; }
 
   m_GameBoard[row][column] = state;
-  if (row == 0) {m_availableColumns[column] = false;}
+  if (row == 0) {std::erase(m_availableColumns, column);}
 }
 
 bool GameBoard::hasPlayerWon(const int column, const TileState state) const
@@ -69,15 +69,13 @@ bool GameBoard::hasPlayerWon(const int column, const TileState state) const
 
 bool GameBoard::isBoardFull() const
 {
-  for (auto column : m_availableColumns)
-  { if (column.second) { return false; } }
-  return true;
+  if (m_availableColumns.empty()) { return true; }
+  return false;
 }
 
 bool GameBoard::isMoveValid(const int column) const
 {
-  if (column < 0 || column >= m_columns) { return false; }
-  return m_availableColumns.at(column);
+  return std::ranges::find(m_availableColumns, column) != m_availableColumns.end();
 }
 
 char GameBoard::getTileChar(const TileState state)
